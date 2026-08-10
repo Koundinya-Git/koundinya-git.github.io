@@ -1,69 +1,69 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { siteConfig } from '../../siteConfig';
-import { getCollection } from 'astro:content';
-import { Wrench, Code, ExternalLink } from 'lucide-react';
+import { Code, Star, GitFork, Book } from 'lucide-react';
 
-const allProjects = await getCollection('projects');
-allProjects.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+let repos = [];
+let errorMsg = null;
+try {
+  const res = await fetch(`https://api.github.com/users/${siteConfig.githubUsername}/repos?sort=updated&per_page=9`, {
+    headers: {
+      'User-Agent': siteConfig.githubUsername
+    }
+  });
+  if (res.ok) {
+    repos = await res.json();
+  } else {
+    errorMsg = `API Error: ${res.status} ${res.statusText}`;
+  }
+} catch (e: any) {
+  errorMsg = e.message;
+}
 ---
 
 <Layout title={`Projects | ${siteConfig.name}`}>
-  <div style="padding-top: 6rem; padding-bottom: 4rem; max-width: 1000px; margin: 0 auto;">
-    
+  <div style="padding-top: 6rem; padding-bottom: 4rem; max-width: 900px; margin: 0 auto;">
     <header style="margin-bottom: 3rem; text-align: center;">
-      <h1 class="mono text-accent mb-2 flex items-center justify-center gap-2">
-        <Wrench size={32} /> >_ PROJECTS
-      </h1>
-      <p class="text-secondary mono">Systems architecture, software, and builds.</p>
+      <div class="flex items-center justify-center gap-4 mb-4">
+        <Code size={48} class="text-accent" />
+        <h1 class="text-4xl font-bold mono">>_ PROJECTS</h1>
+      </div>
+      <p class="text-secondary mono">Open source contributions and repositories.</p>
     </header>
 
-    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
-      {allProjects.map(project => (
-        <div class="block-panel" style="display: flex; flex-direction: column;">
-          <h2 class="mono mb-2 text-primary" style="font-size: 1.5rem;">{project.data.title}</h2>
-          <div class="mb-4">
-            <span class="text-xs mono" style="background: var(--surface-color-border); padding: 2px 6px; border-radius: 4px; color: var(--text-primary);">
-              {project.data.status}
-            </span>
-          </div>
-          <p class="text-secondary flex-grow" style="line-height: 1.6; margin-bottom: 1.5rem;">
-            {project.data.description}
-          </p>
-          
-          <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem;">
-            {project.data.technologies.map((tech: string) => (
-              <span class="text-xs mono text-accent" style="border: 1px solid var(--accent-primary); padding: 2px 6px; border-radius: 4px; background: rgba(85,255,85,0.1);">
-                {tech}
-              </span>
-            ))}
-          </div>
-
-          <div class="flex gap-4 mt-auto">
-            <a href={`/projects/${project.id}`} class="mono text-accent text-sm hover:underline">Read details →</a>
-            {project.data.github && (
-              <a href={project.data.github} target="_blank" rel="noopener noreferrer" class="text-secondary hover:text-accent group relative">
-                <Code size={20} />
-                <span class="tooltip hidden group-hover:block absolute -top-8 left-1/2 transform -translate-x-1/2 bg-surface text-secondary text-xs px-2 py-1 rounded">
-                  Source
+    {repos.length > 0 ? (
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+        {repos.map((repo: any) => (
+          <a href={repo.html_url} target="_blank" rel="noopener noreferrer" class="block-panel group" style="text-decoration: none; display: flex; flex-direction: column;">
+            <h2 class="mono text-primary mb-2 group-hover:text-accent flex items-center gap-2 text-lg">
+              <Book size={18} /> {repo.name}
+            </h2>
+            <p class="text-secondary mb-4 flex-grow" style="font-size: 0.9rem;">
+              {repo.description || 'No description provided.'}
+            </p>
+            <div class="flex items-center gap-4 text-xs mono text-secondary mt-auto">
+              {repo.language && (
+                <span class="flex items-center gap-1">
+                  <span style="width: 8px; height: 8px; border-radius: 50%; background: var(--accent-primary); display: inline-block;"></span>
+                  {repo.language}
                 </span>
-              </a>
-            )}
-            {project.data.demo && (
-              <a href={project.data.demo} target="_blank" rel="noopener noreferrer" class="text-secondary hover:text-white transition-colors" title="Live Demo">
-                <ExternalLink size={20} />
-              </a>
-            )}
-          </div>
-        </div>
-      ))}
-    </div>
-    
-    {allProjects.length === 0 && (
-      <div class="block-panel text-center py-8">
-        <p class="mono text-secondary">No project data found. Try adding some markdown files to src/content/projects.</p>
+              )}
+              <span class="flex items-center gap-1"><Star size={14} /> {repo.stargazers_count}</span>
+              <span class="flex items-center gap-1"><GitFork size={14} /> {repo.forks_count}</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    ) : (
+      <div class="block-panel text-center" style="padding: 3rem;">
+        <p class="text-secondary mono">GitHub data is currently syncing or unavailable. {errorMsg ? `(${errorMsg})` : ''} Check the <a href={siteConfig.socialLinks.github} target="_blank" class="text-accent hover:underline">GitHub Profile</a> directly.</p>
       </div>
     )}
-
   </div>
+
+  <style>
+    .block-panel:hover {
+      border-color: var(--accent-primary);
+    }
+  </style>
 </Layout>

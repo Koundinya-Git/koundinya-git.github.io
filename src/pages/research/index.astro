@@ -1,61 +1,83 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { siteConfig } from '../../siteConfig';
-import { getCollection } from 'astro:content';
-import { FlaskConical, FileText, Calendar } from 'lucide-react';
+import { FileText } from 'lucide-react';
 
-const allResearch = await getCollection('research');
-allResearch.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+let publications = [];
+let errorMsg = null;
+try {
+  const orcidId = siteConfig.orcidId;
+  const res = await fetch(`https://pub.orcid.org/v3.0/${orcidId}/works`, {
+    headers: {
+      'Accept': 'application/json'
+    }
+  });
+  
+  if (res.ok) {
+    const data = await res.json();
+    const works = data.group || [];
+    
+    publications = works.map((group: any) => {
+      const summary = group['work-summary'][0];
+      let pubUrl = null;
+      if (summary.url && summary.url.value) {
+        pubUrl = summary.url.value;
+      } else if (summary['external-ids'] && summary['external-ids']['external-id']) {
+        const extIds = summary['external-ids']['external-id'];
+        const doiId = extIds.find((id: any) => id['external-id-type'] === 'doi');
+        if (doiId && doiId['external-id-value']) {
+          pubUrl = `https://doi.org/${doiId['external-id-value']}`;
+        } else if (extIds[0] && extIds[0]['external-id-url']) {
+          pubUrl = extIds[0]['external-id-url'].value || null;
+        }
+      }
+      return {
+        title: summary.title.title.value,
+        type: summary.type,
+        journal: summary['journal-title'] ? summary['journal-title'].value : null,
+        date: summary['publication-date'] ? summary['publication-date'].year.value : 'Unknown',
+        url: pubUrl
+      };
+    });
+  } else {
+    errorMsg = `API Error: ${res.status} ${res.statusText}`;
+  }
+} catch (e: any) {
+  errorMsg = e.message;
+}
 ---
 
 <Layout title={`Research | ${siteConfig.name}`}>
   <div style="padding-top: 6rem; padding-bottom: 4rem; max-width: 900px; margin: 0 auto;">
-    
     <header style="margin-bottom: 3rem; text-align: center;">
-      <h1 class="mono text-accent mb-2 flex items-center justify-center gap-2">
-        <FlaskConical size={32} /> >_ RESEARCH
+      <h1 class="mono text-primary mb-2 flex items-center justify-center gap-2" style="font-size: 2.5rem;">
+        <FileText size={32} class="text-accent" /> >_ RESEARCH
       </h1>
-      <p class="text-secondary mono">Theoretical physics, cosmology, and quantum gravity.</p>
+      <p class="text-secondary mono">Official academic record.</p>
     </header>
 
-    <div style="display: flex; flex-direction: column; gap: 2rem;">
-      {allResearch.map(paper => (
-        <article class="block-panel" style="position: relative;">
-          <a href={`/research/${paper.id}`} style="text-decoration: none; display: block;">
-            <h2 class="mono mb-2 text-primary" style="font-size: 1.5rem;">{paper.data.title}</h2>
-            <div class="flex items-center gap-4 text-xs mono text-secondary mb-4">
-              <span class="flex items-center gap-1"><Calendar size={14} /> {paper.data.date.toISOString().split('T')[0]}</span>
-              {paper.data.publication && (
-                <span class="text-accent" style="border: 1px solid var(--accent-primary); padding: 2px 6px; border-radius: 4px;">
-                  {paper.data.publication}
-                </span>
-              )}
+    {publications.length > 0 ? (
+      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        {publications.map((pub: any) => (
+          <div class="block-panel">
+            <h2 class="mono text-primary mb-2 text-lg">{pub.title}</h2>
+            <div class="flex items-center gap-4 text-xs mono text-secondary mb-2">
+              <span>{pub.type}</span>
+              {pub.journal && <span class="text-accent">{pub.journal}</span>}
+              {pub.date && <span>{pub.date}</span>}
             </div>
-            <p class="text-secondary mb-4" style="line-height: 1.6;">
-              {paper.data.abstract}
-            </p>
-            
-            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;">
-              {paper.data.authors.map((author: string) => (
-                <span class="text-xs text-secondary bg-surface px-2 py-1 rounded" style="background: rgba(0,0,0,0.3); padding: 4px 8px; border-radius: 4px;">
-                  {author}
-                </span>
-              ))}
-            </div>
-
-            <div class="flex items-center gap-2 text-accent text-sm mono">
-              <FileText size={16} /> Read Paper →
-            </div>
-          </a>
-        </article>
-      ))}
-
-      {allResearch.length === 0 && (
-        <div class="block-panel text-center py-8">
-          <p class="mono text-secondary">No research papers found in the archives.</p>
-        </div>
-      )}
-    </div>
-
+            {pub.url && (
+              <a href={pub.url} target="_blank" rel="noopener noreferrer" class="text-accent hover:underline text-sm mono">
+                View Publication â†’
+              </a>
+            )}
+          </div>
+        ))}
+      </div>
+    ) : (
+      <div class="block-panel text-center" style="padding: 3rem;">
+        <p class="text-secondary mono">Publications data is currently syncing or unavailable. {errorMsg ? `(${errorMsg})` : ''} Check ORCID: <a href={siteConfig.socialLinks.orcid} class="text-accent hover:underline">{siteConfig.socialLinks.orcid}</a></p>
+      </div>
+    )}
   </div>
 </Layout>
