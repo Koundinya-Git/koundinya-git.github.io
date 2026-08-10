@@ -69,9 +69,9 @@ try {
         </div>
       </div>
       
-      <div style="display: flex; flex-wrap: wrap; gap: 2rem; align-items: center; justify-content: center;">
+      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%;">
         <!-- Terminal Window -->
-        <div style="flex: 1; min-width: 350px; max-width: 600px; background-color: #0d1117; border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+        <div style="width: 100%; max-width: 800px; background-color: #0d1117; border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
           {/* Terminal Header */}
           <div style="background-color: #161b22; border-bottom: 1px solid var(--border-color); padding: 0.5rem 1rem; display: flex; align-items: center; gap: 0.5rem;">
             <div style="width: 12px; height: 12px; border-radius: 50%; background-color: #ff5f56;"></div>
@@ -84,11 +84,6 @@ try {
           <div style="padding: 1.5rem; min-height: 250px;">
             <Typewriter lines={terminalLines} typingSpeed={40} lineDelay={600} client:load />
           </div>
-        </div>
-
-        <!-- Globe -->
-        <div style="flex: 1; min-width: 300px; max-width: 500px; display: flex; justify-content: center; align-items: center;">
-          <Globe size={500} client:load />
         </div>
       </div>
     </section>

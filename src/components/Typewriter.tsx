@@ -65,8 +65,10 @@ export default function Typewriter({ lines, typingSpeed = 30, lineDelay = 500 }:
       const char = currentLine[currentCharIndex];
       // Add randomness for a more human-like typing feel, and pause on punctuation
       delay += Math.random() * (typingSpeed * 0.5);
-      if (['.', ',', '!', '?'].includes(char)) {
-        delay += 400; // Pause at punctuation
+      if (['.', '!', '?'].includes(char)) {
+        delay += 1200; // Major pause at end of sentences
+      } else if (char === ',') {
+        delay += 600; // Minor pause at commas
       }
 
       const timeout = setTimeout(() => {
