@@ -6,35 +6,54 @@ export default function Globe({ size = 400 }) {
 
   useEffect(() => {
     let phi = 4.0;
+    let globe: any = null;
 
     if (!canvasRef.current) return;
 
-    const globe = createGlobe(canvasRef.current, {
-      devicePixelRatio: 2,
-      width: size * 2,
-      height: size * 2,
-      phi: 0,
-      theta: 0.2,
-      dark: 1, // dark mode (dots on transparent background)
-      diffuse: 1.2,
-      mapSamples: 12000, // Reduced from 16000 for better compatibility
-      mapBrightness: 6,
-      baseColor: [1, 1, 1], // White dots
-      markerColor: [0.33, 1, 0.33], // Neon green marker
-      glowColor: [0.2, 0.2, 0.2], // Soft white/grey glow
-      markers: [
-        { location: [17.3850, 78.4867], size: 0.1 }
-      ],
-      onRender: (state) => {
-        state.phi = phi;
-        phi += 0.005;
-      },
+    const initGlobe = () => {
+      if (globe) globe.destroy();
+      
+      const width = canvasRef.current!.offsetWidth;
+      // Get exact device pixel ratio to prevent rendering bugs on Windows/Chrome
+      const dpr = window.devicePixelRatio || 1;
+
+      globe = createGlobe(canvasRef.current!, {
+        devicePixelRatio: dpr,
+        width: width * dpr,
+        height: width * dpr,
+        phi: 0,
+        theta: 0.2,
+        dark: 1, 
+        diffuse: 1.2,
+        mapSamples: 12000,
+        mapBrightness: 6,
+        baseColor: [1, 1, 1], // White dots
+        markerColor: [0.33, 1, 0.33], // Neon green marker
+        glowColor: [0.2, 0.2, 0.2], // Soft white/grey glow
+        markers: [
+          { location: [17.3850, 78.4867], size: 0.1 }
+        ],
+        onRender: (state) => {
+          state.phi = phi;
+          phi += 0.005;
+        },
+      });
+    };
+
+    // Initialize after a tiny delay to ensure CSS has applied layout
+    setTimeout(initGlobe, 100);
+
+    const resizeObserver = new ResizeObserver(() => {
+      initGlobe();
     });
+    
+    resizeObserver.observe(canvasRef.current);
 
     return () => {
-      globe.destroy();
+      if (globe) globe.destroy();
+      resizeObserver.disconnect();
     };
-  }, [size]);
+  }, []);
 
   return (
     <div style={{
@@ -52,8 +71,6 @@ export default function Globe({ size = 400 }) {
         style={{
           width: "100%",
           height: "100%",
-          maxWidth: `${size}px`,
-          maxHeight: `${size}px`,
           cursor: "grab",
         }}
       />

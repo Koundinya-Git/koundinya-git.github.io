@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import { siteConfig } from '../siteConfig';
 import Typewriter from '../components/Typewriter';
 import Globe from '../components/Globe';
-import { ArrowRight, Book, FlaskConical, Code } from 'lucide-react';
+import { ArrowRight, Book, FlaskConical, Code, Terminal } from 'lucide-react';
 
 const terminalLines = [
   "root@anti-code:~# ./manifesto.sh",
@@ -55,21 +55,40 @@ try {
 
 <Layout>
   <div style="padding-top: 4rem; padding-bottom: 2rem;">
-    <!-- Hero Section: Terminal Window -->
-    <section style="margin-bottom: 3rem; display: flex; justify-content: center;">
-      <div style="width: 100%; max-width: 800px; background-color: #0d1117; border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-        
-        {/* Terminal Header */}
-        <div style="background-color: #161b22; border-bottom: 1px solid var(--border-color); padding: 0.5rem 1rem; display: flex; align-items: center; gap: 0.5rem;">
-          <div style="width: 12px; height: 12px; border-radius: 50%; background-color: #ff5f56;"></div>
-          <div style="width: 12px; height: 12px; border-radius: 50%; background-color: #ffbd2e;"></div>
-          <div style="width: 12px; height: 12px; border-radius: 50%; background-color: #27c93f;"></div>
-          <div class="mono" style="margin-left: 1rem; font-size: 0.85rem; color: #8b949e;">root@anti-code:~#</div>
+    <!-- Hero Section: Terminal and Globe -->
+    <section style="margin-bottom: 4rem; margin-top: 2rem;">
+      <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 2rem;">
+        <div style="width: 48px; height: 48px; background: var(--accent-primary); border-radius: 50%; display: flex; justify-content: center; align-items: center; box-shadow: 0 0 15px var(--accent-primary);">
+          <Terminal size={24} color="black" />
+        </div>
+        <div>
+          <h1 class="mono m-0" style="font-size: 2.5rem; letter-spacing: -1px;">
+            Koundinya-Git
+          </h1>
+          <p class="mono text-accent m-0" style="font-size: 1rem;">>>_ sys.admin & dev</p>
+        </div>
+      </div>
+      
+      <div style="display: flex; flex-wrap: wrap; gap: 2rem; align-items: center; justify-content: center;">
+        <!-- Terminal Window -->
+        <div style="flex: 1; min-width: 350px; max-width: 600px; background-color: #0d1117; border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+          {/* Terminal Header */}
+          <div style="background-color: #161b22; border-bottom: 1px solid var(--border-color); padding: 0.5rem 1rem; display: flex; align-items: center; gap: 0.5rem;">
+            <div style="width: 12px; height: 12px; border-radius: 50%; background-color: #ff5f56;"></div>
+            <div style="width: 12px; height: 12px; border-radius: 50%; background-color: #ffbd2e;"></div>
+            <div style="width: 12px; height: 12px; border-radius: 50%; background-color: #27c93f;"></div>
+            <div class="mono" style="margin-left: 1rem; font-size: 0.85rem; color: #8b949e;">root@koundinya-git:~#</div>
+          </div>
+
+          {/* Terminal Body */}
+          <div style="padding: 1.5rem; min-height: 250px;">
+            <Typewriter lines={terminalLines} typingSpeed={40} lineDelay={600} client:load />
+          </div>
         </div>
 
-        {/* Terminal Body */}
-        <div style="padding: 1.5rem; min-height: 300px;">
-          <Typewriter lines={terminalLines} typingSpeed={40} lineDelay={600} client:load />
+        <!-- Globe -->
+        <div style="flex: 1; min-width: 300px; max-width: 500px; display: flex; justify-content: center; align-items: center;">
+          <Globe size={500} client:load />
         </div>
       </div>
     </section>
@@ -113,13 +132,7 @@ try {
       </section>
     </div>
 
-    <!-- Location Node -->
-    <section class="flex flex-col items-center" style="margin-bottom: 3rem;">
-      <h2 class="mono mb-2 text-accent">>_ LOCATION_NODE // HYDERABAD_INDIA</h2>
-      <div style="width: 100%; display: flex; justify-content: center; margin-top: -2rem;">
-        <Globe size={600} client:load />
-      </div>
-    </section>
+
 
     <!-- Latest Activity Dashboard -->
     <section class="block-panel" style="margin-bottom: 2rem;">
