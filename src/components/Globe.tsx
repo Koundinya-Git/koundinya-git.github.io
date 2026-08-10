@@ -19,9 +19,9 @@ export default function Globe({ size = 400 }) {
       diffuse: 1.2,
       mapSamples: 12000,
       mapBrightness: 6,
-      baseColor: [1, 1, 1], 
+      baseColor: [0.1, 0.1, 0.1], 
       markerColor: [0.33, 1, 0.33], 
-      glowColor: [1, 1, 1], 
+      glowColor: [0.1, 0.1, 0.1], 
       markers: [
         { location: [17.3850, 78.4867], size: 0.1 }
       ],

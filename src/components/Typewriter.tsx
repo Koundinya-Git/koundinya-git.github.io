@@ -61,6 +61,14 @@ export default function Typewriter({ lines, typingSpeed = 30, lineDelay = 500 }:
     const currentLine = lines[currentLineIndex];
 
     if (currentCharIndex < currentLine.length) {
+      let delay = typingSpeed;
+      const char = currentLine[currentCharIndex];
+      // Add randomness for a more human-like typing feel, and pause on punctuation
+      delay += Math.random() * (typingSpeed * 0.5);
+      if (['.', ',', '!', '?'].includes(char)) {
+        delay += 400; // Pause at punctuation
+      }
+
       const timeout = setTimeout(() => {
         setDisplayedLines(prev => {
           const newLines = [...prev];
@@ -72,12 +80,12 @@ export default function Typewriter({ lines, typingSpeed = 30, lineDelay = 500 }:
         });
         
         // Play sound if character is not a space
-        if (currentLine[currentCharIndex] !== ' ') {
+        if (char !== ' ') {
           playClick();
         }
 
         setCurrentCharIndex(prev => prev + 1);
-      }, typingSpeed);
+      }, delay);
 
       return () => clearTimeout(timeout);
     } else {
