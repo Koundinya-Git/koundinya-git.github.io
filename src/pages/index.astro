@@ -1,0 +1,94 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { siteConfig } from '../siteConfig';
+import TimeMachine from '../components/TimeMachine';
+import { ArrowRight, Map as MapIcon, Book, FlaskConical, Code } from 'lucide-react';
+---
+
+<Layout>
+  <div style="padding-top: 4rem; padding-bottom: 2rem;">
+    <!-- Hero Section -->
+    <section class="block-panel" style="margin-bottom: 2rem; position: relative; overflow: hidden; min-height: 400px; display: flex; flex-direction: column; justify-content: center;">
+      <div style="position: relative; z-index: 1;">
+        <h1 style="font-size: 4rem; margin-bottom: 0.5rem; text-shadow: 4px 4px 0px rgba(0,0,0,0.8);">
+          <span class="text-accent">{siteConfig.nickname}</span>
+        </h1>
+        <p class="mono text-secondary" style="font-size: 1.25rem; margin-bottom: 2rem;">{siteConfig.role}</p>
+        
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+          <a href="/world" class="block-button">
+            <MapIcon size={18} /> EXPLORE WORLD
+          </a>
+          <a href="/research" class="block-button">
+            <FlaskConical size={18} /> RESEARCH
+          </a>
+          <a href="/projects" class="block-button">
+            <Book size={18} /> PROJECTS
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+      <!-- About Snapshot -->
+      <section class="block-panel">
+        <h2 class="mono mb-4 text-accent">ABOUT</h2>
+        <p class="text-secondary mb-4" style="line-height: 1.6;">
+          {siteConfig.description}
+        </p>
+        <a href="/about" class="mono text-primary flex items-center gap-1">
+          Read full profile <ArrowRight size={16} />
+        </a>
+      </section>
+      
+      <!-- Currently Working On -->
+      <section class="block-panel">
+        <h2 class="mono mb-4 text-accent">CURRENTLY</h2>
+        <ul class="text-secondary mono" style="list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.5rem;">
+          <li>> Building a digital world</li>
+          <li>> Researching quantum gravity</li>
+          <li>> Writing about theoretical physics</li>
+        </ul>
+        <a href="/now" class="mono text-primary flex items-center gap-1" style="margin-top: 1rem;">
+          See /now <ArrowRight size={16} />
+        </a>
+      </section>
+    </div>
+
+    <!-- Latest Activity Dashboard -->
+    <section class="block-panel" style="margin-bottom: 2rem;">
+      <h2 class="mono mb-4 text-accent">LATEST ACTIVITY</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+        
+        <div>
+          <h3 class="mono text-primary mb-2 flex items-center gap-2">
+            <Code size={18} /> CODE
+          </h3>
+          <p class="text-secondary text-sm mb-2">Synced automatically from GitHub.</p>
+          <a href="/github" class="mono text-accent text-sm">View all repositories →</a>
+        </div>
+
+        <div>
+          <h3 class="mono text-primary mb-2 flex items-center gap-2">
+            <FlaskConical size={18} /> RESEARCH
+          </h3>
+          <p class="text-secondary text-sm mb-2">Latest publications and notes.</p>
+          <a href="/research" class="mono text-accent text-sm">View all research →</a>
+        </div>
+
+        <div>
+          <h3 class="mono text-primary mb-2 flex items-center gap-2">
+            <Book size={18} /> WRITING
+          </h3>
+          <p class="text-secondary text-sm mb-2">Thoughts and blog posts.</p>
+          <a href="/blog" class="mono text-accent text-sm">View all posts →</a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Time Machine Demo -->
+    <TimeMachine client:load />
+
+  </div>
+</Layout>

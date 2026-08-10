@@ -1,0 +1,47 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { siteConfig } from '../siteConfig';
+import { Monitor, Cpu, Code2 } from 'lucide-react';
+---
+
+<Layout title={`Uses | ${siteConfig.name}`}>
+  <div style="padding-top: 6rem; padding-bottom: 4rem; max-width: 800px; margin: 0 auto;">
+    
+    <header style="margin-bottom: 3rem;">
+      <h1 class="mono text-primary mb-2 flex items-center gap-2" style="font-size: 2.5rem;">
+        <Monitor size={32} class="text-accent" /> /uses
+      </h1>
+      <p class="text-secondary mono">Hardware and software I use daily.</p>
+    </header>
+
+    <div style="display: flex; flex-direction: column; gap: 2rem;">
+      
+      <section class="block-panel">
+        <h2 class="mono text-accent mb-4 flex items-center gap-2">
+          <Cpu size={24} /> Hardware
+        </h2>
+        <ul class="text-secondary" style="line-height: 1.8; padding-left: 1.5rem;">
+          <li><strong>Primary Machine:</strong> Custom built PC (AMD Ryzen 9, 64GB RAM, RTX 4080) running Linux.</li>
+          <li><strong>Laptop:</strong> ThinkPad X1 Carbon for writing and coding on the go.</li>
+          <li><strong>Keyboard:</strong> Keychron Q1 Pro with custom tactile switches.</li>
+          <li><strong>Telescope:</strong> Celestron NexStar 8SE for astrophotography and stargazing.</li>
+        </ul>
+      </section>
+
+      <section class="block-panel">
+        <h2 class="mono text-accent mb-4 flex items-center gap-2">
+          <Code2 size={24} /> Software & Tools
+        </h2>
+        <ul class="text-secondary" style="line-height: 1.8; padding-left: 1.5rem;">
+          <li><strong>Editor:</strong> Neovim (primary) and VS Code (for large web projects).</li>
+          <li><strong>Terminal:</strong> Alacritty with Tmux.</li>
+          <li><strong>OS:</strong> Arch Linux (i use arch btw).</li>
+          <li><strong>Writing:</strong> Obsidian for zettelkasten, LaTeX for research papers.</li>
+          <li><strong>Languages:</strong> C/C++, Rust, Python, TypeScript.</li>
+        </ul>
+      </section>
+      
+    </div>
+    
+  </div>
+</Layout>

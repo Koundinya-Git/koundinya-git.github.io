@@ -1,0 +1,37 @@
+/* Environment Inspector */
+.inspector-panel {
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  width: 300px;
+  z-index: 1000;
+  background: rgba(18, 18, 20, 0.95);
+  border: 1px solid var(--accent-primary);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8), var(--shadow-glow);
+}
+.inspector-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--surface-color-border);
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  color: var(--accent-primary);
+}
+.inspector-header button {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+.inspector-header button:hover {
+  color: #ff5555;
+}
+.inspector-content p {
+  margin: 0.25rem 0;
+}
+.inspector-content strong {
+  color: var(--text-primary);
+}

@@ -1,0 +1,74 @@
+/* Inventory Navigation */
+.inventory-wrapper {
+  position: fixed;
+  bottom: -150px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  transition: bottom 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.inventory-wrapper.open {
+  bottom: 20px;
+}
+.inventory-toggle {
+  margin-bottom: 10px;
+  background: var(--surface-color);
+}
+.inventory-grid {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  gap: 4px;
+  padding: 8px;
+  background: rgba(18, 18, 20, 0.95);
+  border-radius: 0; /* Minecraft inventory doesn't have much border radius */
+}
+@media (max-width: 768px) {
+  .inventory-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+.inventory-slot {
+  width: 50px;
+  height: 50px;
+  background: var(--surface-color-light);
+  border: 2px solid var(--surface-color-border);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+.inventory-slot:hover {
+  border-color: var(--accent-primary);
+  background: var(--surface-active);
+}
+.inventory-icon {
+  color: var(--text-secondary);
+  transition: color 0.2s;
+}
+.inventory-slot:hover .inventory-icon {
+  color: var(--accent-primary);
+}
+.inventory-tooltip {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: black;
+  color: white;
+  padding: 4px 8px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  border: 1px solid var(--accent-primary);
+}
+.inventory-slot:hover .inventory-tooltip {
+  opacity: 1;
+}

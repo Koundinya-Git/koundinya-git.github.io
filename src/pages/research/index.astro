@@ -1,0 +1,61 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { siteConfig } from '../../siteConfig';
+import { getCollection } from 'astro:content';
+import { FlaskConical, FileText, Calendar } from 'lucide-react';
+
+const allResearch = await getCollection('research');
+allResearch.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<Layout title={`Research | ${siteConfig.name}`}>
+  <div style="padding-top: 6rem; padding-bottom: 4rem; max-width: 900px; margin: 0 auto;">
+    
+    <header style="margin-bottom: 3rem; text-align: center;">
+      <h1 class="mono text-accent mb-2 flex items-center justify-center gap-2">
+        <FlaskConical size={32} /> OBSERVATORY
+      </h1>
+      <p class="text-secondary mono">Theoretical physics, cosmology, and quantum gravity.</p>
+    </header>
+
+    <div style="display: flex; flex-direction: column; gap: 2rem;">
+      {allResearch.map(paper => (
+        <article class="block-panel" style="position: relative;">
+          <a href={`/research/${paper.id}`} style="text-decoration: none; display: block;">
+            <h2 class="mono mb-2 text-primary" style="font-size: 1.5rem;">{paper.data.title}</h2>
+            <div class="flex items-center gap-4 text-xs mono text-secondary mb-4">
+              <span class="flex items-center gap-1"><Calendar size={14} /> {paper.data.date.toISOString().split('T')[0]}</span>
+              {paper.data.publication && (
+                <span class="text-accent" style="border: 1px solid var(--accent-primary); padding: 2px 6px; border-radius: 4px;">
+                  {paper.data.publication}
+                </span>
+              )}
+            </div>
+            <p class="text-secondary mb-4" style="line-height: 1.6;">
+              {paper.data.abstract}
+            </p>
+            
+            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;">
+              {paper.data.authors.map((author: string) => (
+                <span class="text-xs text-secondary bg-surface px-2 py-1 rounded" style="background: rgba(0,0,0,0.3); padding: 4px 8px; border-radius: 4px;">
+                  {author}
+                </span>
+              ))}
+            </div>
+
+            <div class="flex items-center gap-2 text-accent text-sm mono">
+              <FileText size={16} /> Read Paper →
+            </div>
+          </a>
+        </article>
+      ))}
+
+      {allResearch.length === 0 && (
+        <div class="block-panel text-center py-8">
+          <p class="mono text-secondary">No research papers found in the archives.</p>
+        </div>
+      )}
+    </div>
+
+  </div>
+</Layout>

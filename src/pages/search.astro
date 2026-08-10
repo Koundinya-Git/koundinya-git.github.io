@@ -1,0 +1,24 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { siteConfig } from '../siteConfig';
+import { Search } from 'lucide-react';
+---
+
+<Layout title={`Search | ${siteConfig.name}`}>
+  <div style="padding-top: 10rem; padding-bottom: 4rem; max-width: 600px; margin: 0 auto; text-align: center;">
+    
+    <Search size={48} class="text-accent mb-4 mx-auto" />
+    <h1 class="mono text-primary mb-4" style="font-size: 2.5rem;">Global Search</h1>
+    
+    <p class="text-secondary mb-8" style="font-size: 1.2rem;">
+      Press <kbd class="mono" style="background: var(--surface-color-light); border: 1px solid var(--surface-color-border); padding: 4px 8px; border-radius: 4px; color: var(--text-primary);">Ctrl + K</kbd> or <kbd class="mono" style="background: var(--surface-color-light); border: 1px solid var(--surface-color-border); padding: 4px 8px; border-radius: 4px; color: var(--text-primary);">Cmd + K</kbd> anywhere in the world to open the command palette.
+    </p>
+
+    <div class="block-panel">
+      <p class="text-secondary mono text-sm mb-0">
+        You can search for research papers, blog posts, projects, and internal pages instantly.
+      </p>
+    </div>
+    
+  </div>
+</Layout>

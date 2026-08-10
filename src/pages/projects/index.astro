@@ -1,0 +1,69 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { siteConfig } from '../../siteConfig';
+import { getCollection } from 'astro:content';
+import { Wrench, Code, ExternalLink } from 'lucide-react';
+
+const allProjects = await getCollection('projects');
+allProjects.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<Layout title={`Projects | ${siteConfig.name}`}>
+  <div style="padding-top: 6rem; padding-bottom: 4rem; max-width: 1000px; margin: 0 auto;">
+    
+    <header style="margin-bottom: 3rem; text-align: center;">
+      <h1 class="mono text-accent mb-2 flex items-center justify-center gap-2">
+        <Wrench size={32} /> CRAFTING TABLE
+      </h1>
+      <p class="text-secondary mono">Systems, software, and physical builds.</p>
+    </header>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+      {allProjects.map(project => (
+        <div class="block-panel" style="display: flex; flex-direction: column;">
+          <h2 class="mono mb-2 text-primary" style="font-size: 1.5rem;">{project.data.title}</h2>
+          <div class="mb-4">
+            <span class="text-xs mono" style="background: var(--surface-color-border); padding: 2px 6px; border-radius: 4px; color: var(--text-primary);">
+              {project.data.status}
+            </span>
+          </div>
+          <p class="text-secondary flex-grow" style="line-height: 1.6; margin-bottom: 1.5rem;">
+            {project.data.description}
+          </p>
+          
+          <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.5rem;">
+            {project.data.technologies.map((tech: string) => (
+              <span class="text-xs mono text-accent" style="border: 1px solid var(--accent-primary); padding: 2px 6px; border-radius: 4px; background: rgba(85,255,85,0.1);">
+                {tech}
+              </span>
+            ))}
+          </div>
+
+          <div class="flex gap-4 mt-auto">
+            <a href={`/projects/${project.id}`} class="mono text-accent text-sm hover:underline">Read details →</a>
+            {project.data.github && (
+              <a href={project.data.github} target="_blank" rel="noopener noreferrer" class="text-secondary hover:text-accent group relative">
+                <Code size={20} />
+                <span class="tooltip hidden group-hover:block absolute -top-8 left-1/2 transform -translate-x-1/2 bg-surface text-secondary text-xs px-2 py-1 rounded">
+                  Source
+                </span>
+              </a>
+            )}
+            {project.data.demo && (
+              <a href={project.data.demo} target="_blank" rel="noopener noreferrer" class="text-secondary hover:text-white transition-colors" title="Live Demo">
+                <ExternalLink size={20} />
+              </a>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+    
+    {allProjects.length === 0 && (
+      <div class="block-panel text-center py-8">
+        <p class="mono text-secondary">No crafted items found. Try adding some markdown files to src/content/projects.</p>
+      </div>
+    )}
+
+  </div>
+</Layout>

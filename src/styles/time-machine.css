@@ -1,0 +1,32 @@
+/* Time Machine Slider */
+.time-slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 10px;
+  background: var(--surface-color-border);
+  outline: none;
+  border-radius: var(--border-radius);
+  transition: background 0.2s;
+}
+
+.time-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: var(--accent-primary);
+  cursor: pointer;
+  border-radius: var(--border-radius);
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.5);
+  border: 1px solid #fff;
+}
+
+.time-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: var(--accent-primary);
+  cursor: pointer;
+  border-radius: var(--border-radius);
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.5);
+  border: 1px solid #fff;
+}

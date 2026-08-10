@@ -1,0 +1,84 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { siteConfig } from '../siteConfig';
+import { Map as MapIcon, Home, Compass, Book, FlaskConical, Wrench } from 'lucide-react';
+---
+
+<Layout title={`World Map | ${siteConfig.name}`}>
+  <div style="padding-top: 6rem; padding-bottom: 4rem; max-width: 1000px; margin: 0 auto;">
+    
+    <header style="margin-bottom: 3rem; text-align: center;">
+      <h1 class="mono text-primary mb-2 flex items-center justify-center gap-2" style="font-size: 2.5rem;">
+        <MapIcon size={32} class="text-accent" /> /world
+      </h1>
+      <p class="text-secondary mono">Fast travel to locations across the digital world.</p>
+    </header>
+
+    <div class="world-map-container block-panel" style="position: relative; height: 600px; padding: 2rem; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+      
+      <!-- Central Node -->
+      <a href="/" class="map-node group" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        <div class="map-icon" style="background: var(--surface-color); border: 2px solid var(--accent-primary); width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(85,255,85,0.2); z-index: 10; position: relative;">
+          <Home size={32} class="text-accent group-hover:scale-110 transition-transform" />
+        </div>
+        <div class="map-label mono text-accent" style="position: absolute; top: 100%; left: 50%; transform: translateX(-50%); margin-top: 0.5rem; white-space: nowrap; font-weight: bold;">SPAWN POINT</div>
+      </a>
+
+      <!-- About Node -->
+      <a href="/about" class="map-node group" style="position: absolute; top: 20%; left: 30%; transform: translate(-50%, -50%);">
+        <div class="map-icon" style="background: var(--surface-color); border: 2px solid var(--surface-color-border); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 10; position: relative; transition: border-color 0.2s;">
+          <Compass size={24} class="text-secondary group-hover:text-primary transition-colors" />
+        </div>
+        <div class="map-label mono text-secondary" style="position: absolute; top: 100%; left: 50%; transform: translateX(-50%); margin-top: 0.5rem; white-space: nowrap;">PLAYER PROFILE</div>
+      </a>
+
+      <!-- Research Node -->
+      <a href="/research" class="map-node group" style="position: absolute; top: 30%; left: 75%; transform: translate(-50%, -50%);">
+        <div class="map-icon" style="background: var(--surface-color); border: 2px solid var(--surface-color-border); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 10; position: relative; transition: border-color 0.2s;">
+          <FlaskConical size={24} class="text-secondary group-hover:text-primary transition-colors" />
+        </div>
+        <div class="map-label mono text-secondary" style="position: absolute; top: 100%; left: 50%; transform: translateX(-50%); margin-top: 0.5rem; white-space: nowrap;">OBSERVATORY</div>
+      </a>
+
+      <!-- Projects Node -->
+      <a href="/projects" class="map-node group" style="position: absolute; top: 75%; left: 35%; transform: translate(-50%, -50%);">
+        <div class="map-icon" style="background: var(--surface-color); border: 2px solid var(--surface-color-border); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 10; position: relative; transition: border-color 0.2s;">
+          <Wrench size={24} class="text-secondary group-hover:text-primary transition-colors" />
+        </div>
+        <div class="map-label mono text-secondary" style="position: absolute; top: 100%; left: 50%; transform: translateX(-50%); margin-top: 0.5rem; white-space: nowrap;">CRAFTING TABLE</div>
+      </a>
+
+      <!-- Blog Node -->
+      <a href="/blog" class="map-node group" style="position: absolute; top: 70%; left: 70%; transform: translate(-50%, -50%);">
+        <div class="map-icon" style="background: var(--surface-color); border: 2px solid var(--surface-color-border); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 10; position: relative; transition: border-color 0.2s;">
+          <Book size={24} class="text-secondary group-hover:text-primary transition-colors" />
+        </div>
+        <div class="map-label mono text-secondary" style="position: absolute; top: 100%; left: 50%; transform: translateX(-50%); margin-top: 0.5rem; white-space: nowrap;">LIBRARY</div>
+      </a>
+
+      <!-- Decorative connecting lines using SVG in background -->
+      <svg style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none;">
+        <line x1="50%" y1="50%" x2="30%" y2="20%" stroke="var(--surface-color-border)" stroke-width="2" stroke-dasharray="5,5" />
+        <line x1="50%" y1="50%" x2="75%" y2="30%" stroke="var(--surface-color-border)" stroke-width="2" stroke-dasharray="5,5" />
+        <line x1="50%" y1="50%" x2="35%" y2="75%" stroke="var(--surface-color-border)" stroke-width="2" stroke-dasharray="5,5" />
+        <line x1="50%" y1="50%" x2="70%" y2="70%" stroke="var(--surface-color-border)" stroke-width="2" stroke-dasharray="5,5" />
+      </svg>
+      
+    </div>
+    
+  </div>
+
+  <style>
+    .world-map-container {
+      background-image: radial-gradient(rgba(85,255,85,0.1) 1px, transparent 1px);
+      background-size: 20px 20px;
+    }
+    .map-node:hover .map-icon {
+      border-color: var(--accent-primary) !important;
+      background: var(--surface-color-light) !important;
+    }
+    .map-node:hover .map-label {
+      color: var(--accent-primary) !important;
+    }
+  </style>
+</Layout>

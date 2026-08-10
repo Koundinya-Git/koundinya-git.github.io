@@ -1,0 +1,51 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { siteConfig } from '../siteConfig';
+import { Link2, Code, ExternalLink, Mail } from 'lucide-react';
+
+const links = [
+  { name: 'GitHub', url: siteConfig.socialLinks.github, icon: Code, desc: 'Open source projects and code.' },
+  { name: 'ORCID', url: siteConfig.socialLinks.orcid, icon: ExternalLink, desc: 'Academic publications and research.' },
+  { name: 'Email', url: `mailto:${siteConfig.email}`, icon: Mail, desc: 'Direct contact.' },
+];
+---
+
+<Layout title={`Links | ${siteConfig.name}`}>
+  <div style="padding-top: 6rem; padding-bottom: 4rem; max-width: 600px; margin: 0 auto;">
+    
+    <header style="margin-bottom: 3rem; text-align: center;">
+      <h1 class="mono text-primary mb-2 flex items-center justify-center gap-2" style="font-size: 2.5rem;">
+        <Link2 size={32} class="text-accent" /> /links
+      </h1>
+      <p class="text-secondary mono">Connect with me across the web.</p>
+    </header>
+
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+      {links.map((link) => (
+        <a href={link.url} target="_blank" rel="noopener noreferrer" class="link-card block-panel" style="text-decoration: none; display: flex; align-items: center; gap: 1rem; transition: all 0.2s;">
+          <div class="link-icon-container" style="background: var(--surface-color-light); padding: 1rem; border-radius: var(--border-radius); border: 1px solid var(--surface-color-border); transition: all 0.2s;">
+            <link.icon size={24} class="link-icon text-primary" style={{ transition: 'all 0.2s' }} />
+          </div>
+          <div>
+            <h2 class="link-title mono text-primary text-lg m-0" style="transition: all 0.2s;">{link.name}</h2>
+            <p class="text-secondary m-0 text-sm">{link.desc}</p>
+          </div>
+        </a>
+      ))}
+    </div>
+    
+  </div>
+
+  <style>
+    .link-card:hover {
+      border-color: var(--accent-primary);
+    }
+    .link-card:hover .link-icon-container {
+      border-color: var(--accent-primary);
+    }
+    .link-card:hover .link-icon,
+    .link-card:hover .link-title {
+      color: var(--accent-primary);
+    }
+  </style>
+</Layout>

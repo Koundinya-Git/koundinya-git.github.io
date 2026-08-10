@@ -1,0 +1,51 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { siteConfig } from '../siteConfig';
+import { FileText } from 'lucide-react';
+
+let publications = [];
+try {
+  const fs = await import('fs/promises');
+  const path = await import('path');
+  const dataPath = path.resolve('./src/data/orcid.json');
+  const data = await fs.readFile(dataPath, 'utf-8');
+  publications = JSON.parse(data);
+} catch (e) {
+  // Data not available yet
+}
+---
+
+<Layout title={`Publications | ${siteConfig.name}`}>
+  <div style="padding-top: 6rem; padding-bottom: 4rem; max-width: 900px; margin: 0 auto;">
+    <header style="margin-bottom: 3rem; text-align: center;">
+      <h1 class="mono text-primary mb-2 flex items-center justify-center gap-2" style="font-size: 2.5rem;">
+        <FileText size={32} class="text-accent" /> /publications
+      </h1>
+      <p class="text-secondary mono">Official academic record.</p>
+    </header>
+
+    {publications.length > 0 ? (
+      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+        {publications.map((pub: any) => (
+          <div class="block-panel">
+            <h2 class="mono text-primary mb-2 text-lg">{pub.title}</h2>
+            <div class="flex items-center gap-4 text-xs mono text-secondary mb-2">
+              <span>{pub.type}</span>
+              {pub.journal && <span class="text-accent">{pub.journal}</span>}
+              {pub.date && <span>{pub.date}</span>}
+            </div>
+            {pub.url && (
+              <a href={pub.url} target="_blank" rel="noopener noreferrer" class="text-accent hover:underline text-sm mono">
+                View Publication →
+              </a>
+            )}
+          </div>
+        ))}
+      </div>
+    ) : (
+      <div class="block-panel text-center" style="padding: 3rem;">
+        <p class="text-secondary mono">Publications data is syncing or unavailable. Check ORCID: <a href={siteConfig.socialLinks.orcid} class="text-accent hover:underline">{siteConfig.socialLinks.orcid}</a></p>
+      </div>
+    )}
+  </div>
+</Layout>

@@ -1,0 +1,74 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import { Calendar, ArrowLeft, Users, ExternalLink, Download } from 'lucide-react';
+import '../../styles/markdown.css';
+
+export async function getStaticPaths() {
+  const researchEntries = await getCollection('research');
+  return researchEntries.map(entry => ({
+    params: { slug: entry.id }, props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<Layout title={`${entry.data.title} | Research`} description={entry.data.abstract}>
+  <div style="padding-top: 6rem; padding-bottom: 4rem; max-width: 800px; margin: 0 auto;">
+    
+    <a href="/research" class="mono text-accent flex items-center gap-2 mb-8 hover:underline">
+      <ArrowLeft size={16} /> BACK TO OBSERVATORY
+    </a>
+
+    <article class="block-panel" style="padding: 3rem;">
+      <header style="margin-bottom: 2rem; border-bottom: 1px solid var(--surface-color-border); padding-bottom: 2rem;">
+        <h1 class="mono text-primary" style="font-size: 2.5rem; margin-bottom: 1.5rem; text-shadow: none;">{entry.data.title}</h1>
+        
+        <div class="flex items-center gap-4 text-sm mono text-secondary mb-4 flex-wrap">
+          <span class="flex items-center gap-1"><Calendar size={16} /> {entry.data.date.toISOString().split('T')[0]}</span>
+          {entry.data.publication && (
+            <span class="text-accent" style="border: 1px solid var(--accent-primary); padding: 2px 6px; border-radius: 4px;">
+              Published in: {entry.data.publication}
+            </span>
+          )}
+        </div>
+
+        <div class="flex items-start gap-2 mb-6">
+          <Users size={18} class="text-secondary mt-1 flex-shrink-0" />
+          <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+            {entry.data.authors.map((author: string) => (
+              <span class="text-sm text-secondary" style="background: rgba(0,0,0,0.3); padding: 4px 8px; border-radius: 4px;">
+                {author}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {entry.data.pdf && (
+          <div class="flex gap-4">
+            <a href={entry.data.pdf} target="_blank" rel="noopener noreferrer" class="block-button flex items-center gap-2">
+              <Download size={16} /> DOWNLOAD PDF
+            </a>
+            {entry.data.url && (
+              <a href={entry.data.url} target="_blank" rel="noopener noreferrer" class="block-button flex items-center gap-2" style="background: transparent;">
+                <ExternalLink size={16} /> EXTERNAL LINK
+              </a>
+            )}
+          </div>
+        )}
+      </header>
+
+      <div class="block-panel" style="background: rgba(0,0,0,0.2); margin-bottom: 3rem;">
+        <h3 class="mono text-accent mb-2">ABSTRACT</h3>
+        <p class="text-secondary" style="line-height: 1.8;">{entry.data.abstract}</p>
+      </div>
+
+      <div class="markdown-content">
+        <Content />
+      </div>
+    </article>
+
+  </div>
+</Layout>

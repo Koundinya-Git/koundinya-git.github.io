@@ -1,0 +1,171 @@
+---
+import '../styles/global.css';
+import { siteConfig } from '../siteConfig';
+import Navbar from '../components/Navbar';
+import CommandPalette from '../components/CommandPalette';
+import EnvironmentInspector from '../components/EnvironmentInspector';
+import InventoryNav from '../components/InventoryNav';
+import MusicPlayer from '../components/MusicPlayer';
+
+export interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { 
+  title = siteConfig.name, 
+  description = siteConfig.description 
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, siteConfig.domain);
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    
+    <!-- SEO -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    
+    <!-- OpenGraph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:site_name" content={siteConfig.name} />
+    <meta property="og:type" content="website" />
+    
+    <!-- KaTeX CSS for math rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbjl+Uvtt6fG0ZX6We369i09eJ9LqxGdi5+vxXG6E8" crossorigin="anonymous">
+
+    <!-- Environment Script -->
+    <script>
+      import { initEnvironment } from '../scripts/EnvironmentEngine';
+      
+      // Initialize immediately to prevent flash
+      initEnvironment();
+    </script>
+  </head>
+  <body>
+    <!-- Canvas for environmental particles (stars, rain, fireflies) -->
+    <canvas id="env-canvas"></canvas>
+    
+    <!-- Header / Nav placeholder -->
+    <header>
+      <Navbar client:load />
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+      <slot />
+    </main>
+
+    <CommandPalette client:load />
+    <EnvironmentInspector client:load />
+    <InventoryNav client:load />
+    <MusicPlayer client:only="react" />
+
+    <!-- Footer -->
+    <footer class="container" style="padding-top: 2rem; padding-bottom: 2rem; margin-top: 4rem; border-top: 1px solid var(--surface-color-border);">
+      <p class="mono" style="font-size: 0.9rem; color: var(--text-secondary);">
+        {siteConfig.name} © {new Date().getFullYear()}
+      </p>
+    </footer>
+
+    <!-- Canvas logic -->
+    <script>
+      const canvas = document.getElementById('env-canvas') as HTMLCanvasElement;
+      const ctx = canvas.getContext('2d');
+      
+      let particles: any[] = [];
+      let width = window.innerWidth;
+      let height = window.innerHeight;
+      let currentState: any = {};
+
+      function resize() {
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = width;
+        canvas.height = height;
+      }
+      
+      window.addEventListener('resize', resize);
+      resize();
+
+      function createStars() {
+        particles = [];
+        for (let i = 0; i < 200; i++) {
+          particles.push({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            size: Math.random() * 2,
+            speed: Math.random() * 0.5 + 0.1,
+            opacity: Math.random()
+          });
+        }
+      }
+
+      function createRain() {
+        particles = [];
+        for (let i = 0; i < 150; i++) {
+          particles.push({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            size: Math.random() * 2 + 1,
+            speedY: Math.random() * 10 + 10,
+            speedX: Math.random() * 2 - 1
+          });
+        }
+      }
+
+      window.addEventListener('environmentChange', (e: any) => {
+        currentState = e.detail;
+        
+        // Setup particles based on time/weather
+        if (currentState.weather === 'rain' || currentState.weather === 'storm') {
+          createRain();
+        } else if (currentState.time < 5 || currentState.time > 19) {
+          createStars();
+        } else {
+          particles = [];
+        }
+      });
+
+      function animate() {
+        if (!ctx) return;
+        ctx.clearRect(0, 0, width, height);
+
+        if (currentState.weather === 'rain' || currentState.weather === 'storm') {
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+          particles.forEach(p => {
+            ctx.fillRect(p.x, p.y, p.size, p.size * 5);
+            p.y += p.speedY;
+            p.x += p.speedX;
+            if (p.y > height) {
+              p.y = -10;
+              p.x = Math.random() * width;
+            }
+          });
+        } else if (currentState.time < 5 || currentState.time > 19) {
+          particles.forEach(p => {
+            ctx.fillStyle = `rgba(255, 255, 255, ${p.opacity})`;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+            ctx.fill();
+            p.y -= p.speed;
+            if (p.y < 0) p.y = height;
+          });
+        }
+        
+        requestAnimationFrame(animate);
+      }
+      
+      animate();
+    </script>
+  </body>
+</html>

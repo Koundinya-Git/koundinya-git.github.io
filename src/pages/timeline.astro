@@ -1,0 +1,44 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { siteConfig } from '../siteConfig';
+import { History, GitCommit } from 'lucide-react';
+
+const events = [
+  { year: '2026', content: 'Launched Koundinya-Git Digital World.' },
+  { year: '2025', content: 'Started research in topological quantum gravity.' },
+  { year: '2024', content: 'Built custom 64-bit OS.' },
+  { year: '2022', content: 'Began deep dive into low-level programming.' },
+  { year: '2020', content: 'Wrote first line of code.' }
+];
+---
+
+<Layout title={`Timeline | ${siteConfig.name}`}>
+  <div style="padding-top: 6rem; padding-bottom: 4rem; max-width: 800px; margin: 0 auto;">
+    <header style="margin-bottom: 3rem; text-align: center;">
+      <h1 class="mono text-primary mb-2 flex items-center justify-center gap-2" style="font-size: 2.5rem;">
+        <History size={32} class="text-accent" /> /timeline
+      </h1>
+      <p class="text-secondary mono">A chronological log of my existence.</p>
+    </header>
+
+    <div style="position: relative; padding-left: 2rem;">
+      <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 2px; background: var(--surface-color-border);"></div>
+      
+      {events.map((event, index) => (
+        <div style="position: relative; margin-bottom: 2rem;">
+          <div style="position: absolute; left: -2rem; top: 0; width: 2rem; height: 1.5rem; display: flex; align-items: center; justify-content: flex-start; transform: translateX(-50%);">
+            <div style="background: var(--surface-color); border: 2px solid var(--accent-primary); width: 16px; height: 16px; border-radius: 50%;"></div>
+          </div>
+          
+          <div class="block-panel">
+            <div class="flex items-center gap-2 mb-2">
+              <GitCommit size={16} class="text-accent" />
+              <h2 class="mono text-accent text-lg m-0">{event.year}</h2>
+            </div>
+            <p class="text-secondary m-0">{event.content}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</Layout>

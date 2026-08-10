@@ -1,0 +1,51 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { siteConfig } from '../../siteConfig';
+import { getCollection } from 'astro:content';
+import { BookOpen, Calendar, Tag } from 'lucide-react';
+
+const allPosts = await getCollection('blog', ({ data }) => {
+  return data.draft !== true;
+});
+allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<Layout title={`Blog | ${siteConfig.name}`}>
+  <div style="padding-top: 6rem; padding-bottom: 4rem; max-width: 900px; margin: 0 auto;">
+    
+    <header style="margin-bottom: 3rem; text-align: center;">
+      <h1 class="mono text-accent mb-2 flex items-center justify-center gap-2">
+        <BookOpen size={32} /> LIBRARY
+      </h1>
+      <p class="text-secondary mono">{siteConfig.blog.description}</p>
+    </header>
+
+    <div style="display: flex; flex-direction: column; gap: 2rem;">
+      {allPosts.map(post => (
+        <article class="block-panel" style="position: relative;">
+          <a href={`/blog/${post.id}`} style="text-decoration: none; display: block;">
+            <h2 class="mono mb-2 text-primary" style="font-size: 1.5rem;">{post.data.title}</h2>
+            <div class="flex items-center gap-4 text-xs mono text-secondary mb-4">
+              <span class="flex items-center gap-1"><Calendar size={14} /> {post.data.date.toISOString().split('T')[0]}</span>
+              {post.data.tags.length > 0 && (
+                <span class="flex items-center gap-1 text-accent">
+                  <Tag size={14} /> {post.data.tags.join(', ')}
+                </span>
+              )}
+            </div>
+            <p class="text-secondary" style="line-height: 1.6;">
+              {post.data.description}
+            </p>
+          </a>
+        </article>
+      ))}
+
+      {allPosts.length === 0 && (
+        <div class="block-panel text-center py-8">
+          <p class="mono text-secondary">No chunks found in this section of the library yet.</p>
+        </div>
+      )}
+    </div>
+
+  </div>
+</Layout>

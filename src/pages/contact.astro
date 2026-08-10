@@ -1,0 +1,80 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { siteConfig } from '../siteConfig';
+import { Mail, Send, Terminal } from 'lucide-react';
+---
+
+<Layout title={`Contact | ${siteConfig.name}`}>
+  <div style="padding-top: 6rem; padding-bottom: 4rem; max-width: 600px; margin: 0 auto;">
+    
+    <header style="margin-bottom: 3rem; text-align: center;">
+      <h1 class="mono text-primary mb-2 flex items-center justify-center gap-2" style="font-size: 2.5rem;">
+        <Mail size={32} class="text-accent" /> /contact
+      </h1>
+      <p class="text-secondary mono">Send a direct transmission.</p>
+    </header>
+
+    <div class="block-panel" style="padding: 2rem;">
+      <div style="margin-bottom: 2rem; background: rgba(0,0,0,0.3); padding: 1rem; border-left: 2px solid var(--accent-primary);">
+        <p class="mono text-sm text-secondary m-0 flex items-center gap-2">
+          <Terminal size={16} /> 
+          <span>SYSTEM_MSG: Direct email to {siteConfig.email}</span>
+        </p>
+      </div>
+
+      <form action={`https://formspree.io/f/YOUR_FORMSPREE_ID`} method="POST" style="display: flex; flex-direction: column; gap: 1.5rem;">
+        
+        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+          <label for="name" class="mono text-primary text-sm">IDENTIFIER (NAME)</label>
+          <input 
+            type="text" 
+            id="name" 
+            name="name" 
+            required 
+            class="mono text-primary"
+            style="background: var(--surface-color-light); border: 1px solid var(--surface-color-border); padding: 0.75rem; border-radius: var(--border-radius); outline: none; transition: border-color 0.2s;"
+            onfocus="this.style.borderColor='var(--accent-primary)'"
+            onblur="this.style.borderColor='var(--surface-color-border)'"
+          />
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+          <label for="email" class="mono text-primary text-sm">RETURN ADDRESS (EMAIL)</label>
+          <input 
+            type="email" 
+            id="email" 
+            name="email" 
+            required 
+            class="mono text-primary"
+            style="background: var(--surface-color-light); border: 1px solid var(--surface-color-border); padding: 0.75rem; border-radius: var(--border-radius); outline: none; transition: border-color 0.2s;"
+            onfocus="this.style.borderColor='var(--accent-primary)'"
+            onblur="this.style.borderColor='var(--surface-color-border)'"
+          />
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+          <label for="message" class="mono text-primary text-sm">PAYLOAD (MESSAGE)</label>
+          <textarea 
+            id="message" 
+            name="message" 
+            rows="5" 
+            required 
+            class="mono text-primary"
+            style="background: var(--surface-color-light); border: 1px solid var(--surface-color-border); padding: 0.75rem; border-radius: var(--border-radius); outline: none; transition: border-color 0.2s; resize: vertical;"
+            onfocus="this.style.borderColor='var(--accent-primary)'"
+            onblur="this.style.borderColor='var(--surface-color-border)'"
+          ></textarea>
+        </div>
+
+        <button type="submit" class="block-button flex items-center justify-center gap-2" style="padding: 1rem; font-size: 1.1rem; margin-top: 1rem;">
+          <Send size={18} /> TRANSMIT
+        </button>
+      </form>
+      
+      <p class="text-xs text-secondary mono mt-4 text-center">
+        Note: Formspree ID needs to be configured in src/pages/contact.astro.
+      </p>
+    </div>
+    
+  </div>
+</Layout>

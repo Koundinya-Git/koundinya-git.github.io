@@ -1,0 +1,47 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { siteConfig } from '../siteConfig';
+import { Shield } from 'lucide-react';
+---
+
+<Layout title={`Privacy Policy | ${siteConfig.name}`}>
+  <div style="padding-top: 6rem; padding-bottom: 4rem; max-width: 800px; margin: 0 auto;">
+    
+    <header style="margin-bottom: 3rem;">
+      <h1 class="mono text-primary mb-2 flex items-center gap-2" style="font-size: 2.5rem;">
+        <Shield size={32} class="text-accent" /> /privacy
+      </h1>
+      <p class="text-secondary mono">Data transmission and storage policies.</p>
+    </header>
+
+    <div class="block-panel" style="padding: 2rem;">
+      <p class="text-secondary mb-4 text-sm mono">Last updated: August 2026</p>
+      
+      <div style="display: flex; flex-direction: column; gap: 2rem;">
+        
+        <div>
+          <h2 class="mono text-accent mb-2">1. Data Collection</h2>
+          <p class="text-secondary" style="line-height: 1.6;">
+            This digital world is fully static. I do not track you, use analytics, or store any personal data on my servers, primarily because I don't have servers. 
+          </p>
+        </div>
+
+        <div>
+          <h2 class="mono text-accent mb-2">2. Local Storage</h2>
+          <p class="text-secondary" style="line-height: 1.6;">
+            The Environment Engine uses your browser's <code>localStorage</code> to remember your time and weather overrides, and to manage the state of the world locally on your machine. This data never leaves your browser.
+          </p>
+        </div>
+
+        <div>
+          <h2 class="mono text-accent mb-2">3. Third-party Services</h2>
+          <p class="text-secondary" style="line-height: 1.6;">
+            The Contact form uses Formspree. Data submitted through that form is subject to Formspree's privacy policy. The site is hosted on GitHub Pages, which may collect standard connection logs as per their policy.
+          </p>
+        </div>
+
+      </div>
+    </div>
+    
+  </div>
+</Layout>

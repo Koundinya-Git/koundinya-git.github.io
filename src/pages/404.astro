@@ -1,0 +1,23 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { siteConfig } from '../siteConfig';
+import { AlertTriangle, Home } from 'lucide-react';
+---
+
+<Layout title={`404 - Not Found | ${siteConfig.name}`}>
+  <div style="padding-top: 10rem; padding-bottom: 4rem; max-width: 600px; margin: 0 auto; text-align: center;">
+    
+    <AlertTriangle size={64} class="text-accent mb-6 mx-auto" />
+    <h1 class="mono text-primary mb-4" style="font-size: 3rem;">404</h1>
+    <h2 class="mono text-secondary mb-8">CHUNK NOT LOADED</h2>
+    
+    <p class="text-secondary mb-8" style="font-size: 1.1rem;">
+      You have wandered into an uncharted area of the digital world. The coordinates you provided do not correspond to any known dimension.
+    </p>
+
+    <a href="/" class="block-button" style="display: inline-flex; align-items: center; gap: 0.5rem;">
+      <Home size={18} /> RETURN TO SPAWN
+    </a>
+    
+  </div>
+</Layout>

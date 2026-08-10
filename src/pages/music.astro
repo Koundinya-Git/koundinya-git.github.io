@@ -1,0 +1,20 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { siteConfig } from '../siteConfig';
+import { Music } from 'lucide-react';
+---
+
+<Layout title={`Music | ${siteConfig.name}`}>
+  <div style="padding-top: 6rem; padding-bottom: 4rem; max-width: 800px; margin: 0 auto;">
+    <header style="margin-bottom: 3rem; text-align: center;">
+      <h1 class="mono text-primary mb-2 flex items-center justify-center gap-2" style="font-size: 2.5rem;">
+        <Music size={32} class="text-accent" /> /music
+      </h1>
+      <p class="text-secondary mono">Musical projects and compositions.</p>
+    </header>
+
+    <div class="block-panel text-center" style="padding: 3rem;">
+      <p class="text-secondary mono">The studio is currently quiet. Check back later for new frequencies.</p>
+    </div>
+  </div>
+</Layout>

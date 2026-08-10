@@ -1,0 +1,212 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap');
+@import './nav.css';
+@import './palette.css';
+@import './inspector.css';
+@import './inventory.css';
+@import './time-machine.css';
+
+:root {
+  /* Fonts */
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Default Environment (Can be overridden by JS) */
+  --sky-top: #020024;
+  --sky-middle: #090979;
+  --sky-bottom: #00d4ff;
+  
+  --ambient-color: rgba(0, 0, 0, 0.5);
+  
+  --accent-primary: #55ff55; /* Emerald default */
+  --accent-secondary: #00aaaa; 
+  --accent-hover: #55ff5588;
+
+  --surface-color: rgba(18, 18, 20, 0.85);
+  --surface-color-light: rgba(30, 30, 35, 0.9);
+  --surface-color-border: rgba(255, 255, 255, 0.1);
+  --surface-active: rgba(255, 255, 255, 0.15);
+  
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0b0;
+  
+  --glow-color: rgba(85, 255, 85, 0.4);
+  --particle-color: #ffffff;
+  --light-intensity: 1;
+
+  --border-radius: 4px; /* Slight blocky feel */
+  --shadow-blocky: 4px 4px 0px rgba(0,0,0,0.5);
+  --shadow-glow: 0 0 15px var(--glow-color);
+
+  /* Spacing */
+  --nav-height: 4rem;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-sans);
+  color: var(--text-primary);
+  background: linear-gradient(to bottom, var(--sky-top), var(--sky-middle), var(--sky-bottom));
+  background-attachment: fixed;
+  min-height: 100vh;
+  overflow-x: hidden;
+  transition: background 1s ease-in-out, color 0.5s ease;
+}
+
+/* Background canvas layer */
+#env-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  pointer-events: none;
+  opacity: var(--light-intensity);
+  transition: opacity 1s ease-in-out;
+}
+
+/* Layout Classes */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Blocky UI elements */
+.block-panel {
+  background: var(--surface-color);
+  border: 1px solid var(--surface-color-border);
+  border-radius: var(--border-radius);
+  padding: 1.5rem;
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-blocky);
+  transition: all 0.3s ease;
+}
+
+.block-panel:hover {
+  border-color: var(--accent-primary);
+  box-shadow: var(--shadow-glow);
+  transform: translateY(-2px);
+}
+
+.block-button {
+  background: var(--surface-color-light);
+  color: var(--text-primary);
+  border: 1px solid var(--surface-color-border);
+  padding: 0.75rem 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: var(--border-radius);
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 2px 2px 0px rgba(0,0,0,0.5);
+  text-decoration: none;
+}
+
+.block-button:hover {
+  background: var(--accent-hover);
+  border-color: var(--accent-primary);
+  color: #fff;
+  box-shadow: var(--shadow-glow);
+}
+
+.block-button:active {
+  transform: translate(2px, 2px);
+  box-shadow: none;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  margin-top: 0;
+  letter-spacing: -0.02em;
+}
+
+h1 {
+  font-size: 3rem;
+  text-transform: uppercase;
+  text-shadow: 2px 2px 0px rgba(0,0,0,0.8);
+}
+
+a {
+  color: var(--accent-primary);
+  text-decoration: none;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+a:hover {
+  text-shadow: 0 0 8px var(--glow-color);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--surface-color);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--surface-color-light);
+  border: 1px solid var(--surface-color-border);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-primary);
+}
+
+/* Utilities */
+.text-accent {
+  color: var(--accent-primary);
+}
+.text-primary {
+  color: var(--text-primary);
+}
+.text-secondary {
+  color: var(--text-secondary);
+}
+.mono {
+  font-family: var(--font-mono);
+}
+.flex {
+  display: flex;
+}
+.flex-col {
+  flex-direction: column;
+}
+.items-center {
+  align-items: center;
+}
+.justify-between {
+  justify-content: space-between;
+}
+.gap-1 {
+  gap: 0.25rem;
+}
+.gap-2 {
+  gap: 0.5rem;
+}
+.gap-4 {
+  gap: 1rem;
+}
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+.mb-4 {
+  margin-bottom: 1rem;
+}
+.text-sm {
+  font-size: 0.875rem;
+}
+.text-xs {
+  font-size: 0.75rem;
+}

@@ -1,0 +1,41 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { siteConfig } from '../siteConfig';
+import { Trophy, Star, Medal } from 'lucide-react';
+
+const achievements = [
+  { year: "2026", title: "Published First Author Paper", desc: "Published a theoretical paper on quantum gravity in a major journal.", icon: Star },
+  { year: "2025", title: "Open Source Contributor", desc: "Major contributions to the Linux kernel regarding memory management.", icon: Medal },
+  { year: "2024", title: "Built an OS from Scratch", desc: "Successfully booted a custom 64-bit operating system.", icon: Trophy },
+];
+---
+
+<Layout title={`Achievements | ${siteConfig.name}`}>
+  <div style="padding-top: 6rem; padding-bottom: 4rem; max-width: 800px; margin: 0 auto;">
+    
+    <header style="margin-bottom: 3rem;">
+      <h1 class="mono text-primary mb-2 flex items-center gap-2" style="font-size: 2.5rem;">
+        <Trophy size={32} class="text-accent" /> /achievements
+      </h1>
+      <p class="text-secondary mono">Milestones and unlocked quests.</p>
+    </header>
+
+    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+      {achievements.map((item, index) => (
+        <div class="block-panel flex items-start gap-4">
+          <div style="background: rgba(85,255,85,0.1); padding: 1rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid var(--accent-primary);">
+            <item.icon size={24} class="text-accent" />
+          </div>
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <span class="mono text-accent text-sm">{item.year}</span>
+              <h2 class="mono text-primary text-lg m-0">{item.title}</h2>
+            </div>
+            <p class="text-secondary m-0">{item.desc}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+    
+  </div>
+</Layout>
