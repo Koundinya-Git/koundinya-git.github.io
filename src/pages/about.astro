@@ -32,8 +32,8 @@ import { User, Brain, Code, Microscope, Target } from 'lucide-react';
           <div class="block-panel" style="background: rgba(0,0,0,0.3); padding: 1rem;">
             <p class="mono text-secondary text-sm mb-1">LOCATION</p>
             <p class="mono font-bold text-lg mb-4">Hyderabad, India</p>
-            <div style="width: 100%; max-width: 200px; margin: 0 auto;">
-              <Globe client:load />
+            <div style="width: 100%; display: flex; justify-content: center;">
+              <Globe size={250} client:load />
             </div>
           </div>
         </div>

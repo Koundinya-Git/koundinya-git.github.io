@@ -113,11 +113,10 @@ try {
       </section>
 
       <!-- Location Node -->
-      <section class="block-panel flex flex-col items-center">
-        <h2 class="mono mb-2 text-accent w-full text-left">>_ LOCATION_NODE</h2>
-        <p class="text-secondary mono text-sm mb-4 w-full text-left">Hyderabad, India</p>
-        <div style="width: 100%; max-width: 250px; margin: 0 auto;">
-          <Globe client:load />
+      <section class="flex flex-col items-center" style="grid-column: 1 / -1; margin-top: 2rem;">
+        <h2 class="mono mb-2 text-accent">>_ LOCATION_NODE // HYDERABAD_INDIA</h2>
+        <div style="width: 100%; display: flex; justify-content: center; margin-top: -2rem;">
+          <Globe size={600} client:load />
         </div>
       </section>
     </div>
