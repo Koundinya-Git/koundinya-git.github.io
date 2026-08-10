@@ -5,7 +5,7 @@ export default function Globe({ size = 400 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    let phi = 4.0; // Start rotated closer to India
+    let phi = 4.0;
 
     if (!canvasRef.current) return;
 
@@ -15,19 +15,17 @@ export default function Globe({ size = 400 }) {
       height: size * 2,
       phi: 0,
       theta: 0.2,
-      dark: 1, // 1 = dark mode, renders dots in baseColor over a transparent/dark background
+      dark: 1, // dark mode (dots on transparent background)
       diffuse: 1.2,
-      mapSamples: 16000,
+      mapSamples: 12000, // Reduced from 16000 for better compatibility
       mapBrightness: 6,
-      baseColor: [0.8, 0.8, 0.8], // Light grey for the dots to show up!
-      markerColor: [0.33, 1, 0.33], // Accent neon green
-      glowColor: [0.1, 0.1, 0.1], // Slight subtle glow
+      baseColor: [1, 1, 1], // White dots
+      markerColor: [0.33, 1, 0.33], // Neon green marker
+      glowColor: [0.2, 0.2, 0.2], // Soft white/grey glow
       markers: [
-        // Hyderabad, India coordinates
         { location: [17.3850, 78.4867], size: 0.1 }
       ],
       onRender: (state) => {
-        // Automatically spin slowly
         state.phi = phi;
         phi += 0.005;
       },
@@ -54,7 +52,8 @@ export default function Globe({ size = 400 }) {
         style={{
           width: "100%",
           height: "100%",
-          contain: "layout paint size",
+          maxWidth: `${size}px`,
+          maxHeight: `${size}px`,
           cursor: "grab",
         }}
       />
