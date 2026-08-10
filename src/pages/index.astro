@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import { siteConfig } from '../siteConfig';
 import Typewriter from '../components/Typewriter';
+import Globe from '../components/Globe';
 import { ArrowRight, Book, FlaskConical, Code } from 'lucide-react';
 
 const terminalLines = [
@@ -109,6 +110,15 @@ try {
         <a href="/now" class="mono text-primary flex items-center gap-1 hover:text-accent" style="margin-top: 1rem;">
           See /now <ArrowRight size={16} />
         </a>
+      </section>
+
+      <!-- Location Node -->
+      <section class="block-panel flex flex-col items-center">
+        <h2 class="mono mb-2 text-accent w-full text-left">>_ LOCATION_NODE</h2>
+        <p class="text-secondary mono text-sm mb-4 w-full text-left">Hyderabad, India</p>
+        <div style="width: 100%; max-width: 250px; margin: 0 auto;">
+          <Globe client:load />
+        </div>
       </section>
     </div>
 

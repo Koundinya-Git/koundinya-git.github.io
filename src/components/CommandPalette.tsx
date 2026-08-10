@@ -12,7 +12,7 @@ const commands = [
   { name: 'Contact', href: '/contact' },
   { name: 'Links', href: '/links' },
   { name: 'Now', href: '/now' },
-  { name: 'Uses', href: '/uses' },
+  { name: 'Tools', href: '/tools' },
 ];
 
 export default function CommandPalette() {

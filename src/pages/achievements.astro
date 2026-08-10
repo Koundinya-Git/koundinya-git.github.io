@@ -20,21 +20,28 @@ const achievements = [
       <p class="text-secondary mono">Milestones and notable records.</p>
     </header>
 
-    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-      {achievements.map((item, index) => (
-        <div class="block-panel flex items-start gap-4">
-          <div style="background: rgba(85,255,85,0.1); padding: 1rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid var(--accent-primary);">
-            <item.icon size={24} class="text-accent" />
-          </div>
-          <div>
-            <div class="flex items-center gap-2 mb-1">
-              <span class="mono text-accent text-sm">{item.year}</span>
-              <h2 class="mono text-primary text-lg m-0">{item.title}</h2>
+    <div style="position: relative; padding-left: 2rem;">
+      {/* Vertical Timeline Line */}
+      <div style="position: absolute; left: 6px; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, var(--accent-primary), transparent); opacity: 0.5;"></div>
+
+      <div style="display: flex; flex-direction: column; gap: 2.5rem;">
+        {achievements.map((item, index) => (
+          <div style="position: relative;">
+            {/* Timeline Node */}
+            <div style="position: absolute; left: -2rem; top: 0.25rem; width: 14px; height: 14px; border-radius: 50%; background-color: var(--bg-color); border: 2px solid var(--accent-primary); box-shadow: 0 0 10px var(--accent-primary);"></div>
+            
+            <div class="block-panel" style="margin-top: -1rem;">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="mono text-accent text-sm bg-accent/10 px-2 py-1 rounded" style="background: rgba(85,255,85,0.1); border: 1px solid rgba(85,255,85,0.3);">{item.year}</span>
+                <h2 class="mono text-primary text-xl m-0 flex items-center gap-2">
+                  <item.icon size={20} class="text-secondary" /> {item.title}
+                </h2>
+              </div>
+              <p class="text-secondary m-0" style="line-height: 1.6;">{item.desc}</p>
             </div>
-            <p class="text-secondary m-0">{item.desc}</p>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
     
   </div>

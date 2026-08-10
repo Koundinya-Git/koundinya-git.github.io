@@ -20,6 +20,8 @@ export default function Navbar() {
     { name: 'RESEARCH', href: '/research' },
     { name: 'PROJECTS', href: '/projects' },
     { name: 'BLOG', href: '/blog' },
+    { name: 'NOW', href: '/now' },
+    { name: 'TOOLS', href: '/tools' },
     { name: 'CONTACT', href: '/contact' },
   ];
 
