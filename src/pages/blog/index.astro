@@ -15,7 +15,7 @@ allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
     
     <header style="margin-bottom: 3rem; text-align: center;">
       <h1 class="mono text-accent mb-2 flex items-center justify-center gap-2">
-        <BookOpen size={32} /> LIBRARY
+        <BookOpen size={32} /> >_ BLOG
       </h1>
       <p class="text-secondary mono">{siteConfig.blog.description}</p>
     </header>
@@ -42,7 +42,7 @@ allPosts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
       {allPosts.length === 0 && (
         <div class="block-panel text-center py-8">
-          <p class="mono text-secondary">No chunks found in this section of the library yet.</p>
+          <p class="mono text-secondary">No blog posts found in the system yet.</p>
         </div>
       )}
     </div>

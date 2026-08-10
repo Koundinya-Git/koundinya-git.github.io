@@ -7,13 +7,49 @@ import { ArrowRight, Book, FlaskConical, Code } from 'lucide-react';
 const terminalLines = [
   "root@anti-code:~# ./manifesto.sh",
   "",
-  "> Modern software is bloated.",
-  "> We rely on layers of abstractions we don't understand.",
+  "> Governments seek control. Corporations seek influence. Question both.",
+  "> The modern web is a cage of surveillance and bloated abstractions.",
+  "> They trade your autonomy for the illusion of convenience.",
   "> It's time to build from the ground up.",
   "> ",
   "> Welcome to the Digital World of Koundinya Gajulapalli.",
   "> Status: ONLINE",
 ];
+
+// Fetch Latest GitHub Repo
+let latestRepo = null;
+try {
+  const res = await fetch(`https://api.github.com/users/${siteConfig.githubUsername}/repos?sort=updated&per_page=1`, {
+    headers: { 'User-Agent': siteConfig.githubUsername }
+  });
+  if (res.ok) {
+    const repos = await res.json();
+    if (repos.length > 0) latestRepo = repos[0];
+  }
+} catch (e) {
+  // Silent fail for index page, fallback to link
+}
+
+// Fetch Latest Publication
+let latestPub = null;
+try {
+  const res = await fetch(`https://pub.orcid.org/v3.0/${siteConfig.orcidId}/works`, {
+    headers: { 'Accept': 'application/json' }
+  });
+  if (res.ok) {
+    const data = await res.json();
+    const works = data.group || [];
+    if (works.length > 0) {
+      const summary = works[0]['work-summary'][0];
+      latestPub = {
+        title: summary.title.title.value,
+        url: summary.url ? summary.url.value : (summary['external-ids']?.['external-id']?.find((id: any) => id['external-id-type'] === 'doi') ? `https://doi.org/${summary['external-ids']['external-id'].find((id: any) => id['external-id-type'] === 'doi')['external-id-value']}` : null)
+      };
+    }
+  }
+} catch (e) {
+  // Silent fail
+}
 ---
 
 <Layout>
@@ -85,7 +121,15 @@ const terminalLines = [
           <h3 class="mono text-primary mb-2 flex items-center gap-2">
             <Code size={18} /> CODE
           </h3>
-          <p class="text-secondary text-sm mb-2">Synced automatically from GitHub.</p>
+          {latestRepo ? (
+            <div class="mb-3" style="background: rgba(255,255,255,0.03); padding: 0.75rem; border-left: 2px solid var(--accent-primary);">
+              <p class="mono text-sm text-primary mb-1">{latestRepo.name}</p>
+              <p class="text-xs text-secondary mb-2">{latestRepo.description?.substring(0, 50)}{latestRepo.description?.length > 50 ? '...' : ''}</p>
+              <a href={latestRepo.html_url} target="_blank" rel="noopener noreferrer" class="text-xs mono text-accent hover:underline">View repo →</a>
+            </div>
+          ) : (
+            <p class="text-secondary text-sm mb-2">Synced automatically from GitHub.</p>
+          )}
           <a href="/github" class="mono text-accent text-sm hover:underline">View all repositories →</a>
         </div>
 
@@ -93,8 +137,19 @@ const terminalLines = [
           <h3 class="mono text-primary mb-2 flex items-center gap-2">
             <FlaskConical size={18} /> RESEARCH
           </h3>
-          <p class="text-secondary text-sm mb-2">Latest publications and notes.</p>
-          <a href="/research" class="mono text-accent text-sm hover:underline">View all research →</a>
+          {latestPub ? (
+            <div class="mb-3" style="background: rgba(255,255,255,0.03); padding: 0.75rem; border-left: 2px solid var(--accent-primary);">
+              <p class="mono text-sm text-primary mb-1">{latestPub.title.substring(0, 50)}{latestPub.title.length > 50 ? '...' : ''}</p>
+              {latestPub.url ? (
+                <a href={latestPub.url} target="_blank" rel="noopener noreferrer" class="text-xs mono text-accent hover:underline">Read paper →</a>
+              ) : (
+                <span class="text-xs text-secondary mono">Available on ORCiD</span>
+              )}
+            </div>
+          ) : (
+            <p class="text-secondary text-sm mb-2">Latest publications and notes.</p>
+          )}
+          <a href="/publications" class="mono text-accent text-sm hover:underline">View all research →</a>
         </div>
 
         <div>

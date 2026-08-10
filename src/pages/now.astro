@@ -1,40 +1,25 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { siteConfig } from '../siteConfig';
-import { Clock } from 'lucide-react';
+import { Clock, Globe, BookOpen, Gamepad2, BrainCircuit } from 'lucide-react';
 ---
 
 <Layout title={`Now | ${siteConfig.name}`}>
   <div style="padding-top: 6rem; padding-bottom: 4rem; max-width: 800px; margin: 0 auto;">
     
-    <header style="margin-bottom: 3rem;">
-      <h1 class="mono text-primary mb-2 flex items-center gap-2" style="font-size: 2.5rem;">
-        <Clock size={32} class="text-accent" /> /now
+    <header style="margin-bottom: 3rem; text-align: center;">
+      <h1 class="mono text-primary mb-2 flex items-center justify-center gap-2" style="font-size: 2.5rem;">
+        <Clock size={32} class="text-accent" /> >_ /now
       </h1>
-      <p class="text-secondary mono">What I'm focused on right now.</p>
+      <p class="text-secondary mono">What I'm doing right now.</p>
     </header>
 
     <div class="block-panel" style="padding: 2rem;">
       <p class="text-secondary mb-4 text-sm mono">Last updated: August 2026</p>
       
       <div style="display: flex; flex-direction: column; gap: 2rem;">
-        
         <div>
-          <h2 class="mono text-accent mb-2">Building this Digital World</h2>
-          <p class="text-secondary" style="line-height: 1.6;">
-            I'm currently constructing my personal website from scratch. It's designed to be a living, breathing digital environment that reacts to real-world time and seasons. 
-          </p>
-        </div>
-
-        <div>
-          <h2 class="mono text-accent mb-2">Theoretical Physics Research</h2>
-          <p class="text-secondary" style="line-height: 1.6;">
-            Diving deep into the mathematics of quantum gravity and studying topological aspects of black holes. Trying to formulate some new ideas for my next paper.
-          </p>
-        </div>
-
-        <div>
-          <h2 class="mono text-accent mb-2">Reading</h2>
+          <h2 class="mono text-accent mb-2">>_ Reading</h2>
           <ul class="text-secondary" style="line-height: 1.6; padding-left: 1.5rem;">
             <li><em>Gravitation</em> by Misner, Thorne, and Wheeler</li>
             <li><em>Structure and Interpretation of Computer Programs</em></li>
@@ -42,7 +27,7 @@ import { Clock } from 'lucide-react';
         </div>
         
         <div>
-          <h2 class="mono text-accent mb-2">Playing</h2>
+          <h2 class="mono text-accent mb-2">>_ Executing</h2>
           <ul class="text-secondary" style="line-height: 1.6; padding-left: 1.5rem;">
             <li>Minecraft (always)</li>
             <li>Kerbal Space Program</li>

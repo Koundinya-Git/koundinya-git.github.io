@@ -1,17 +1,17 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { siteConfig } from '../siteConfig';
-import { BookMarked, PenTool } from 'lucide-react';
+import { BookOpen, PenTool } from 'lucide-react';
 ---
 
 <Layout title={`Guestbook | ${siteConfig.name}`}>
   <div style="padding-top: 6rem; padding-bottom: 4rem; max-width: 800px; margin: 0 auto;">
     
     <header style="margin-bottom: 3rem; text-align: center;">
-      <h1 class="mono text-primary mb-2 flex items-center justify-center gap-2" style="font-size: 2.5rem;">
-        <BookMarked size={32} class="text-accent" /> /guestbook
+      <h1 class="mono text-primary mb-2 flex items-center justify-center gap-2">
+        <BookOpen size={32} class="text-accent" /> >_ GUESTBOOK
       </h1>
-      <p class="text-secondary mono">Leave a mark in this digital world.</p>
+      <p class="text-secondary mono">Leave a mark in this system.</p>
     </header>
 
     <div class="block-panel" style="margin-bottom: 2rem;">
@@ -32,7 +32,7 @@ import { BookMarked, PenTool } from 'lucide-react';
       <h3 class="mono text-primary mb-2">Recent Signatures</h3>
       
       <div class="block-panel" style="padding: 1.5rem; border-left: 2px solid var(--accent-primary);">
-        <p class="text-secondary mb-2" style="font-size: 1.1rem;">"Great digital world! I love the dynamic environment."</p>
+        <p class="text-secondary mb-2" style="font-size: 1.1rem;">"Great system architecture! I love the dynamic environment."</p>
         <div class="flex justify-between items-center text-xs mono text-secondary">
           <span class="text-primary font-bold">Wanderer</span>
           <span>August 2026</span>

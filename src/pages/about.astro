@@ -9,38 +9,28 @@ import { User, Brain, Code, Microscope, Target } from 'lucide-react';
     
     <div style="display: grid; grid-template-columns: 1fr; gap: 2rem; max-width: 900px; margin: 0 auto;">
       
-      <!-- Player Profile / HUD -->
+      <!-- Identity Profile -->
       <section class="block-panel" style="border-color: var(--accent-primary);">
         <h1 class="mono text-accent mb-4 flex items-center gap-2">
-          <User size={28} /> PLAYER PROFILE
+          <User size={28} /> >_ SYSTEM_ADMIN_PROFILE
         </h1>
         
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem;">
           <div class="block-panel" style="background: rgba(0,0,0,0.3); padding: 1rem;">
-            <p class="mono text-secondary text-sm mb-1">USERNAME</p>
-            <p class="mono font-bold text-lg">{siteConfig.nickname}</p>
+            <p class="mono text-secondary text-sm mb-1">ID</p>
+            <p class="mono font-bold text-lg text-accent">{siteConfig.nickname}</p>
           </div>
           <div class="block-panel" style="background: rgba(0,0,0,0.3); padding: 1rem;">
-            <p class="mono text-secondary text-sm mb-1">LEVEL</p>
-            <p class="mono font-bold text-lg text-accent">22</p>
+            <p class="mono text-secondary text-sm mb-1">DOMAIN</p>
+            <p class="mono font-bold text-lg">Theoretical Physics</p>
           </div>
           <div class="block-panel" style="background: rgba(0,0,0,0.3); padding: 1rem;">
-            <p class="mono text-secondary text-sm mb-1">CLASS</p>
-            <p class="mono font-bold text-lg">Theoretical Physicist</p>
-          </div>
-          <div class="block-panel" style="background: rgba(0,0,0,0.3); padding: 1rem;">
-            <p class="mono text-secondary text-sm mb-1">FACTION</p>
+            <p class="mono text-secondary text-sm mb-1">STATUS</p>
             <p class="mono font-bold text-lg">Independent Researcher</p>
           </div>
-        </div>
-
-        <div style="margin-bottom: 1rem;">
-          <div class="flex justify-between mono text-sm mb-1">
-            <span>XP TO NEXT LEVEL</span>
-            <span class="text-accent">14,200 / 20,000</span>
-          </div>
-          <div style="width: 100%; height: 10px; background: rgba(0,0,0,0.5); border-radius: 2px; border: 1px solid var(--surface-color-border);">
-            <div style="width: 71%; height: 100%; background: var(--accent-primary); box-shadow: 0 0 10px var(--glow-color);"></div>
+          <div class="block-panel" style="background: rgba(0,0,0,0.3); padding: 1rem;">
+            <p class="mono text-secondary text-sm mb-1">LOCATION</p>
+            <p class="mono font-bold text-lg">Earth Node</p>
           </div>
         </div>
       </section>
@@ -48,7 +38,7 @@ import { User, Brain, Code, Microscope, Target } from 'lucide-react';
       <!-- Who I Am -->
       <section class="block-panel">
         <h2 class="mono mb-4 text-primary flex items-center gap-2">
-          <Brain size={24} /> Who I Am
+          <Brain size={24} /> >_ WHO_I_AM
         </h2>
         <div class="text-secondary" style="line-height: 1.8; font-size: 1.1rem; display: flex; flex-direction: column; gap: 1rem;">
           <p>
@@ -65,7 +55,7 @@ import { User, Brain, Code, Microscope, Target } from 'lucide-react';
       <!-- What I Study -->
       <section class="block-panel">
         <h2 class="mono mb-4 text-primary flex items-center gap-2">
-          <Microscope size={24} /> What I Study
+          <Microscope size={24} /> >_ WHAT_I_STUDY
         </h2>
         <ul class="text-secondary mono" style="list-style-type: '>'; padding-left: 1.5rem; line-height: 2;">
           <li style="padding-left: 0.5rem;">Theoretical physics</li>
@@ -80,7 +70,7 @@ import { User, Brain, Code, Microscope, Target } from 'lucide-react';
       <!-- What I Build -->
       <section class="block-panel">
         <h2 class="mono mb-4 text-primary flex items-center gap-2">
-          <Code size={24} /> What I Build
+          <Code size={24} /> >_ WHAT_I_BUILD
         </h2>
         <p class="text-secondary mb-4" style="line-height: 1.8;">
           I construct digital and physical systems. I love low-level programming, exploring operating system kernels, designing complex electronics, and creating interactive web experiences (like this digital world).
@@ -91,7 +81,7 @@ import { User, Brain, Code, Microscope, Target } from 'lucide-react';
       <!-- Future Goals -->
       <section class="block-panel">
         <h2 class="mono mb-4 text-primary flex items-center gap-2">
-          <Target size={24} /> Future Goals
+          <Target size={24} /> >_ FUTURE_GOALS
         </h2>
         <p class="text-secondary" style="line-height: 1.8;">
           To formulate a mathematically consistent framework that unifies general relativity and quantum mechanics, while building open-source tools that empower other researchers to explore the cosmos.

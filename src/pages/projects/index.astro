@@ -13,9 +13,9 @@ allProjects.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
     
     <header style="margin-bottom: 3rem; text-align: center;">
       <h1 class="mono text-accent mb-2 flex items-center justify-center gap-2">
-        <Wrench size={32} /> CRAFTING TABLE
+        <Wrench size={32} /> >_ PROJECTS
       </h1>
-      <p class="text-secondary mono">Systems, software, and physical builds.</p>
+      <p class="text-secondary mono">Systems architecture, software, and builds.</p>
     </header>
 
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
@@ -61,7 +61,7 @@ allProjects.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
     
     {allProjects.length === 0 && (
       <div class="block-panel text-center py-8">
-        <p class="mono text-secondary">No crafted items found. Try adding some markdown files to src/content/projects.</p>
+        <p class="mono text-secondary">No project data found. Try adding some markdown files to src/content/projects.</p>
       </div>
     )}
 

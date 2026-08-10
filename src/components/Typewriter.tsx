@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 interface TypewriterProps {
   lines: string[];
@@ -10,6 +10,50 @@ export default function Typewriter({ lines, typingSpeed = 30, lineDelay = 500 }:
   const [displayedLines, setDisplayedLines] = useState<string[]>([]);
   const [currentLineIndex, setCurrentLineIndex] = useState(0);
   const [currentCharIndex, setCurrentCharIndex] = useState(0);
+  const audioCtxRef = useRef<AudioContext | null>(null);
+
+  useEffect(() => {
+    // Initialize AudioContext only on user interaction or first mount if allowed
+    if (typeof window !== 'undefined' && !audioCtxRef.current) {
+      const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
+      audioCtxRef.current = new AudioContext();
+    }
+
+    const resumeAudio = () => {
+      if (audioCtxRef.current && audioCtxRef.current.state === 'suspended') {
+        audioCtxRef.current.resume();
+      }
+    };
+    
+    window.addEventListener('click', resumeAudio);
+    window.addEventListener('keydown', resumeAudio);
+    return () => {
+      window.removeEventListener('click', resumeAudio);
+      window.removeEventListener('keydown', resumeAudio);
+    };
+  }, []);
+
+  const playClick = () => {
+    if (!audioCtxRef.current || audioCtxRef.current.state !== 'running') return;
+    
+    const ctx = audioCtxRef.current;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    
+    // Cyber-techy click sound: short, high-pitched, square wave
+    osc.type = 'square';
+    osc.frequency.setValueAtTime(400 + Math.random() * 200, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(100, ctx.currentTime + 0.05);
+    
+    gain.gain.setValueAtTime(0.05, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.05);
+    
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    
+    osc.start();
+    osc.stop(ctx.currentTime + 0.05);
+  };
 
   useEffect(() => {
     if (currentLineIndex >= lines.length) return;
@@ -26,6 +70,12 @@ export default function Typewriter({ lines, typingSpeed = 30, lineDelay = 500 }:
           newLines[currentLineIndex] = currentLine.substring(0, currentCharIndex + 1);
           return newLines;
         });
+        
+        // Play sound if character is not a space
+        if (currentLine[currentCharIndex] !== ' ') {
+          playClick();
+        }
+
         setCurrentCharIndex(prev => prev + 1);
       }, typingSpeed);
 

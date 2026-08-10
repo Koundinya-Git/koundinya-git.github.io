@@ -19,12 +19,24 @@ try {
     
     publications = works.map((group: any) => {
       const summary = group['work-summary'][0];
+      let pubUrl = null;
+      if (summary.url && summary.url.value) {
+        pubUrl = summary.url.value;
+      } else if (summary['external-ids'] && summary['external-ids']['external-id']) {
+        const extIds = summary['external-ids']['external-id'];
+        const doiId = extIds.find((id: any) => id['external-id-type'] === 'doi');
+        if (doiId && doiId['external-id-value']) {
+          pubUrl = `https://doi.org/${doiId['external-id-value']}`;
+        } else if (extIds[0] && extIds[0]['external-id-url']) {
+          pubUrl = extIds[0]['external-id-url'].value || null;
+        }
+      }
       return {
         title: summary.title.title.value,
         type: summary.type,
         journal: summary['journal-title'] ? summary['journal-title'].value : null,
         date: summary['publication-date'] ? summary['publication-date'].year.value : 'Unknown',
-        url: summary.url ? summary.url.value : (summary['external-ids']?.['external-id']?.[0]?.['external-id-url']?.value || null)
+        url: pubUrl
       };
     });
   } else {
