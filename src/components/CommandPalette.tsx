@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 
 const commands = [
   { name: 'Home', href: '/' },
-  { name: 'World Map', href: '/world' },
   { name: 'About Max', href: '/about' },
   { name: 'Research', href: '/research' },
   { name: 'Publications', href: '/publications' },
@@ -10,7 +9,6 @@ const commands = [
   { name: 'GitHub', href: '/github' },
   { name: 'Blog', href: '/blog' },
   { name: 'Astronomy', href: '/astronomy' },
-  { name: 'Music', href: '/music' },
   { name: 'Timeline', href: '/timeline' },
   { name: 'Achievements', href: '/achievements' },
   { name: 'Contact', href: '/contact' },

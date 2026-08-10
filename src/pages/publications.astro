@@ -4,14 +4,34 @@ import { siteConfig } from '../siteConfig';
 import { FileText } from 'lucide-react';
 
 let publications = [];
+let errorMsg = null;
 try {
-  const fs = await import('fs/promises');
-  const path = await import('path');
-  const dataPath = path.resolve('./src/data/orcid.json');
-  const data = await fs.readFile(dataPath, 'utf-8');
-  publications = JSON.parse(data);
-} catch (e) {
-  // Data not available yet
+  const orcidId = siteConfig.orcidId;
+  const res = await fetch(`https://pub.orcid.org/v3.0/${orcidId}/works`, {
+    headers: {
+      'Accept': 'application/json'
+    }
+  });
+  
+  if (res.ok) {
+    const data = await res.json();
+    const works = data.group || [];
+    
+    publications = works.map((group: any) => {
+      const summary = group['work-summary'][0];
+      return {
+        title: summary.title.title.value,
+        type: summary.type,
+        journal: summary['journal-title'] ? summary['journal-title'].value : null,
+        date: summary['publication-date'] ? summary['publication-date'].year.value : 'Unknown',
+        url: summary.url ? summary.url.value : (summary['external-ids']?.['external-id']?.[0]?.['external-id-url']?.value || null)
+      };
+    });
+  } else {
+    errorMsg = `API Error: ${res.status} ${res.statusText}`;
+  }
+} catch (e: any) {
+  errorMsg = e.message;
 }
 ---
 
@@ -19,7 +39,7 @@ try {
   <div style="padding-top: 6rem; padding-bottom: 4rem; max-width: 900px; margin: 0 auto;">
     <header style="margin-bottom: 3rem; text-align: center;">
       <h1 class="mono text-primary mb-2 flex items-center justify-center gap-2" style="font-size: 2.5rem;">
-        <FileText size={32} class="text-accent" /> /publications
+        <FileText size={32} class="text-accent" /> >_ /publications
       </h1>
       <p class="text-secondary mono">Official academic record.</p>
     </header>
@@ -44,7 +64,7 @@ try {
       </div>
     ) : (
       <div class="block-panel text-center" style="padding: 3rem;">
-        <p class="text-secondary mono">Publications data is syncing or unavailable. Check ORCID: <a href={siteConfig.socialLinks.orcid} class="text-accent hover:underline">{siteConfig.socialLinks.orcid}</a></p>
+        <p class="text-secondary mono">Publications data is currently syncing or unavailable. {errorMsg ? `(${errorMsg})` : ''} Check ORCID: <a href={siteConfig.socialLinks.orcid} class="text-accent hover:underline">{siteConfig.socialLinks.orcid}</a></p>
       </div>
     )}
   </div>

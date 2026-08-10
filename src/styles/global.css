@@ -50,24 +50,10 @@ body {
   padding: 0;
   font-family: var(--font-sans);
   color: var(--text-primary);
-  background: linear-gradient(to bottom, var(--sky-top), var(--sky-middle), var(--sky-bottom));
-  background-attachment: fixed;
+  background: #0a0a0c; /* Deep solid black/gray for high-tech terminal vibe */
   min-height: 100vh;
   overflow-x: hidden;
   transition: background 1s ease-in-out, color 0.5s ease;
-}
-
-/* Background canvas layer */
-#env-canvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: -1;
-  pointer-events: none;
-  opacity: var(--light-intensity);
-  transition: opacity 1s ease-in-out;
 }
 
 /* Layout Classes */
